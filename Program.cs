@@ -23,7 +23,7 @@ class Program
             switch (choice)
             {
                 case 1: // se restaurangmeny
-                    order.PrintMenu();
+                    order.FoodMenu();
                     break;
 
                 case 2: // lägg beställning
@@ -67,7 +67,7 @@ class Program
             this.price=price;
             list = new List<OrderItem>();
         }
-            public void PrintMenu()
+            public void FoodMenu()
         {
             //Skriver ut hela menyn med artikelnamn, pris och kvantitet till konsolen.
             Console.WriteLine("----MENY----");
@@ -131,6 +131,7 @@ class Program
         public void PrintOrder()
         //Skriver ut hela beställningen med artikelnamn, pris och kvantitet till konsolen.
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Beställning: ");
             for (int i = 0; i < list.Count; i++)
             {
@@ -148,17 +149,19 @@ class Program
             int quant = Convert.ToInt32(Console.ReadLine());
             for (int i = 0; i < list.Count; i++)
             {
-
-                if (list[i].name == item) // Om en match finns i listan
+                
+                if (list[i].name == item && list[i].quantity >= 1) // Om en match finns i listan
                 {
                     list[i].quantity -= quant; // minska kvantiten
                     return;
                 }
-                
-               
+                else {
+                    Console.WriteLine("Det finns bara inte så många! Försök igen" );
+                }
+
 
             }
-                          // Lägg inte till element i list.Add!! givetvis måste du lägga till dom i AddItem()!!
+                        
             Console.ResetColor();
 
         }
