@@ -38,7 +38,6 @@ class Program
                 case 4:// ta bort
                 order.PrintOrder();
                 order.ReomveOrder();
-                    //order.RemoveAt
                     break;
 
                 case 5:// rensa
