@@ -2,7 +2,6 @@
 //    Implementera möjlighet att spara och läsa beställningar från en fil.
 //    Skapa en metod för att rensa beställningen.
 
-using System.Threading.Channels;
 
 class Program
 {
@@ -12,47 +11,12 @@ class Program
         Order order = new Order(10); // Skapar ett objekt från klassen Order med variabeln order.
 
         order.AddItem("Pizza", 125, 0);
-        order.AddItem("Dryck", 19.90, 3);
+        order.AddItem("Banan", 19.90, 3);
         order.AddItem("Pommes", 30, 0);
 
+        order.StartMenu();
 
-        while (true)
-        {
-            order.StartMenu();
-
-            int choice = Convert.ToInt32(Console.ReadLine());
-            switch (choice)
-            {
-                case 1: // se restaurangmeny
-                    order.FoodMenu();
-                    break;
-
-                case 2: // lägg beställning
-                    order.PlaceOrder();
-                    break;
-
-                case 3: // se alla beställningar
-                    order.PrintOrder(); // skriver ut hela listan list.
-                    order.CountTotal();
-                    break;
-
-                case 4:// ta bort
-                    order.PrintOrder();
-                    order.RemoveOrder();
-                    break;
-
-                case 5:// rensa
-                    order.ClearList();
-                    break;
-
-                case 6: // spara fil
-                    break;
-                default:
-                    Console.WriteLine("Ogiltig inmatning");
-                    break;
-
-            }
-        }
+        
 
     }
 
@@ -169,14 +133,17 @@ class Program
         }
         public void ClearList()
 
-        {
+        { 
             for (int i = 0; i < list.Count; i++)
             {
-                //?
+                list[i].quantity = 0;
+            
             }
 
         }
         public void StartMenu()
+        {
+             while (true)
         {
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -185,10 +152,42 @@ class Program
             Console.WriteLine("3. Se alla beställningar");
             Console.WriteLine("4. Ta bort beställning");
             Console.WriteLine("5. Rensa beställning");
-            Console.WriteLine("6. Spara & ladda upp");
             Console.Write("Gör ett val: ");
 
             Console.ResetColor();
+           
+           
+
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice)
+            {
+                case 1: // se restaurangmeny
+                    FoodMenu();
+                    break;
+
+                case 2: // lägg beställning
+                    PlaceOrder();
+                    break;
+
+                case 3: // se alla beställningar
+                    PrintOrder(); // skriver ut hela listan list.
+                    CountTotal();
+                    break;
+
+                case 4:// ta bort
+                    PrintOrder();
+                    RemoveOrder();
+                    break;
+
+                case 5:// rensa
+                    ClearList();
+                    break;
+                default:
+                    Console.WriteLine("Ogiltig inmatning");
+                    break;
+
+            }
+        }
         }
 
 
@@ -211,30 +210,3 @@ class Program
 
     }
 }
-
-//Console.Write("Skriv in namn på föremålet: ");
-//string item = Console.ReadLine();
-//Console.Write("Antal: ");
-//int quant = Convert.ToInt32(Console.ReadLine());
-//Console.WriteLine("1");
-//for (int i = 0; i < list.Count; i++)
-//{
-
-//    if (list[i].name == item)
-//    {
-//        Console.WriteLine("1");
-//        if (quant <= list[i].quantity && quant > 0) // Om en match finns i listan
-//        {
-//            Console.WriteLine("2");
-//            list[i].quantity -= quant; // minska kvantiten
-
-//        }
-//        else if (list[i].quantity < 0)
-//        {
-//            Console.WriteLine("3");
-//            //Console.WriteLine("Det finns inte så många! Försök igen");
-//            list[i].quantity = 0;
-//        }
-//        Console.WriteLine("4");
-//    }
-//}
