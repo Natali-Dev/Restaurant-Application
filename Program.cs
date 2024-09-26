@@ -2,6 +2,7 @@
 //    Implementera möjlighet att spara och läsa beställningar från en fil.
 //    Skapa en metod för att rensa beställningen.
 
+using System.Threading.Channels;
 
 class Program
 {
@@ -9,16 +10,16 @@ class Program
     {
         Console.WriteLine("Välkommen!");
         Order order = new Order(10); // Skapar ett objekt från klassen Order med variabeln order.
-        
+
         order.AddItem("Pizza", 125, 0);
-        order.AddItem("Dryck", 19.99, 3);
+        order.AddItem("Dryck", 19.90, 3);
         order.AddItem("Pommes", 30, 0);
-    
+
 
         while (true)
         {
             order.StartMenu();
-            
+
             int choice = Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
@@ -36,16 +37,16 @@ class Program
                     break;
 
                 case 4:// ta bort
-                order.PrintOrder();
-                order.ReomveOrder();
+                    order.PrintOrder();
+                    order.RemoveOrder();
                     break;
 
                 case 5:// rensa
-                    //order.clear
+                    order.ClearList();
                     break;
 
                 case 6: // spara fil
-                break; 
+                    break;
                 default:
                     Console.WriteLine("Ogiltig inmatning");
                     break;
@@ -63,10 +64,10 @@ class Program
 
         public Order(double price)
         { // Initierar en tom lista för att lagra beställningsartiklar.
-            this.price=price;
+            this.price = price;
             list = new List<OrderItem>();
         }
-            public void FoodMenu()
+        public void FoodMenu()
         {
             //Skriver ut hela menyn med artikelnamn, pris och kvantitet till konsolen.
             Console.WriteLine("----MENY----");
@@ -91,14 +92,14 @@ class Program
                     list[i].quantity += quantity; // öka kvantiten
                     return;
                 }
-                
+
 
             }
-             
+
             // annars, lägg till i listan
             list.Add(new OrderItem(name, price, quantity)); // Skapar ett nytt orderItem objekt och lägger till det i listan!!!!!
-          
-           
+
+
         }
         public void PlaceOrder()
         {
@@ -139,29 +140,40 @@ class Program
             }
 
         }
-        public void ReomveOrder()
+
+        public void RemoveOrder()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("Skriv in namn på föremålet: ");
+            Console.Write("Välj föremål att ta bort: ");
             string item = Console.ReadLine();
-            Console.Write("Antal: ");
-            int quant = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Hur många? ");
+            int quantity = int.Parse(Console.ReadLine());
+
+            foreach (OrderItem b in list)
+            {
+                if (b.name == item && b.quantity >= 0)
+                {
+                    b.quantity -= quantity;
+
+                    if (b.quantity < 0)
+                    {
+                        b.quantity = 0;
+                        Console.WriteLine("Finns ej så många, men du fick resten!");
+                    }
+                }
+                
+                
+            }
+
+
+        }
+        public void ClearList()
+
+        {
             for (int i = 0; i < list.Count; i++)
             {
-                
-                if (list[i].name == item && list[i].quantity >= 1) // Om en match finns i listan
-                {
-                    list[i].quantity -= quant; // minska kvantiten
-                    return;
-                }
-                else {
-                    Console.WriteLine("Det finns bara inte så många! Försök igen" );
-                }
-
-
+                //?
             }
-                        
-            Console.ResetColor();
 
         }
         public void StartMenu()
@@ -179,23 +191,50 @@ class Program
             Console.ResetColor();
         }
 
-       
+
         public class OrderItem // representerar ett specifikt objekt, pizza, dryck, pommes
         {
-            public string name  {get; set;}
-            public  double price {get; set ;}
-            public int quantity {get; set;} 
+            public string name { get; set; }
+            public double price { get; set; }
+            public int quantity { get; set; }
 
 
             public OrderItem(string name, double price, int quantity)
             {
-                this.name = name; 
+                this.name = name;
                 this.price = price;
                 this.quantity = quantity;
 
             }
-         
+
         }
 
     }
 }
+
+//Console.Write("Skriv in namn på föremålet: ");
+//string item = Console.ReadLine();
+//Console.Write("Antal: ");
+//int quant = Convert.ToInt32(Console.ReadLine());
+//Console.WriteLine("1");
+//for (int i = 0; i < list.Count; i++)
+//{
+
+//    if (list[i].name == item)
+//    {
+//        Console.WriteLine("1");
+//        if (quant <= list[i].quantity && quant > 0) // Om en match finns i listan
+//        {
+//            Console.WriteLine("2");
+//            list[i].quantity -= quant; // minska kvantiten
+
+//        }
+//        else if (list[i].quantity < 0)
+//        {
+//            Console.WriteLine("3");
+//            //Console.WriteLine("Det finns inte så många! Försök igen");
+//            list[i].quantity = 0;
+//        }
+//        Console.WriteLine("4");
+//    }
+//}
