@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Pizza",
+    "price": 125.0,
+    "quantity": 0
+  },
+  {
+    "name": "Dryck",
+    "price": 19.95,
+    "quantity": 0
+  },
+  {
+    "name": "Pommes",
+    "price": 30.0,
+    "quantity": 0
+  }
+]
